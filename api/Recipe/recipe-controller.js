@@ -151,8 +151,8 @@ exports.update = (req, res) => {
       imageUrl: imageUrl,
     };
     console.log(recipe);
-    
-    const recipeId = req.body._id
+
+    const recipeId = req.body._id;
     recipe.author = user._id;
 
     Recipe.findByIdAndUpdate(recipeId, recipe, (error, doc) => {
@@ -166,6 +166,23 @@ exports.update = (req, res) => {
       return res.status(200).json();
     });
   });
+};
+
+exports.updateFavorite = (req, res) => {
+  console.log(req.body._id, 9999);
+  const id = req.body._id;
+  Recipe.findByIdAndUpdate(
+    id,
+    { $set: { favorite: req.body.favorite } },
+    (error) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).json("this do not work");
+      }
+      return res.status(200).json();
+    }
+  );
+  return res.status(200).json();
 };
 
 exports.remove = (req, res) => {
