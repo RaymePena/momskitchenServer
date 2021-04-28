@@ -39,10 +39,11 @@ conectToDB.connectToDB();
 
 registerRoutes(app);
 
+app.get('/', (req, res) => {
 
-
-
-
+	res.json({ message: `Welcome to the momskitchen api. Running in ${process.env.NODE_ENV} mode.` })
+  
+  })
 
 app.listen(PORT, () => {
 	console.log(`Listening on port ${PORT}`);
