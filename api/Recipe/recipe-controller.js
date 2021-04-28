@@ -214,16 +214,17 @@ exports.remove = (req, res) => {
 };
 
 exports.removeFavorite = (req, res) => {
-  console.log(req.body, 1111);
+  console.log(req.params.id, 222);
   const id = authServices.getUserId(req);
 
   console.log(id);
-  Favorites.findOne({ _id: req.params.id }, (error, recipe) => {
+  Favorites.findOne({ recipeId: req.params._id }, (error, recipe) => {
     if (error) {
       return res.status(500).json();
     }
+    console.log(req.params.id, 555);
 
-    Favorites.deleteOne({ _id: req.params.id }, (error) => {
+    Favorites.deleteOne({ recipeId: req.params.id }, (error) => {
       // clearImage(recipe.imageUrl)
       if (error) {
         return res.status(500).json();
