@@ -27,6 +27,11 @@ router.delete(
   authServices.requireLogin,
   recipeController.removeFavorite
 );
+router.delete(
+  "/single-recipe/:id",
+  authServices.requireLogin,
+  recipeController.removeFavorite
+);
 router.put(
   "/recipe/:id",
   authServices.requireLogin,
