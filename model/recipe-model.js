@@ -21,6 +21,7 @@ const recipeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  favorite: { type: Boolean, default: false },
   author: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
 });
 

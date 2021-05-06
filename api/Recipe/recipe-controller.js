@@ -174,8 +174,8 @@ exports.update = (req, res) => {
       imageUrl: imageUrl,
     };
     console.log(recipe);
-    
-    const recipeId = req.body._id
+
+    const recipeId = req.body._id;
     recipe.author = user._id;
 
     Recipe.findByIdAndUpdate(recipeId, recipe, (error, doc) => {
@@ -191,13 +191,23 @@ exports.update = (req, res) => {
   });
 };
 
+exports.updateFavorite = (req, res) => {
+  console.log(req.body._id, 9999);
+  const id = req.body._id;
+  Recipe.findByIdAndUpdate(
+    id,
+    { $set: { favorite: req.body.favorite } },
+    (error) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).json("this do not work");
+      }
+      return res.status(200).json();
+    }
+  );
+  return res.status(200).json();
+};
 
-/**
- * 
- * @param {the request comming from the client} req 
- * @param {send the data to the client} res 
- * remove recipe from the database.
- */
 exports.remove = (req, res) => {
   const id = authServices.getUserId(req);
 
@@ -234,16 +244,17 @@ exports.remove = (req, res) => {
  */
 
 exports.removeFavorite = (req, res) => {
-  console.log(req.body, 1111);
+  console.log(req.params.id, 222);
   const id = authServices.getUserId(req);
 
   console.log(id);
-  Favorites.findOne({ _id: req.params.id }, (error, recipe) => {
+  Favorites.findOne({ recipeId: req.params._id }, (error, recipe) => {
     if (error) {
       return res.status(500).json();
     }
+    console.log(req.params.id, 555);
 
-    Favorites.deleteOne({ _id: req.params.id }, (error) => {
+    Favorites.deleteOne({ recipeId: req.params.id }, (error) => {
       // clearImage(recipe.imageUrl)
       if (error) {
         return res.status(500).json();
