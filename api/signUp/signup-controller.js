@@ -1,6 +1,14 @@
 const StringUtil = require("../../utilities/string-util");
 const User = require("../../model/user-model");
 
+
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * save user to the database.
+ */
+
 exports.index = (req, res) => {
   const validation = validateIndex(req.body);
   if (!validation.isValid) {
@@ -27,6 +35,11 @@ exports.index = (req, res) => {
   });
 };
 
+/**
+ * 
+ * @param {the request body} body 
+ * validate the body of the request
+ */
 function validateIndex(body) {
   let errors = "";
   if (StringUtil.isEmpty(body.username)) {

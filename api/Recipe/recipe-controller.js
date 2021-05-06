@@ -6,6 +6,13 @@ const Favorites = require("../../model/favorite-model");
 const fs = require("fs");
 const path = require("path");
 
+
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * fetch all the recipes
+ */
 exports.index = (req, res) => {
   Recipe.find({}, (error, recipe) => {
     if (error) {
@@ -15,21 +22,20 @@ exports.index = (req, res) => {
   }).populate("author", "username", "user");
 };
 
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * find favorites recipes for the user
+ */
 exports.findFavorites = (req, res) => {
   const id = authServices.getUserId(req);
-  // console.log(id, 11111111111)
-  // User.findOne({_id: id}, (error, user) => {
-  //   if (error) {
-  //     return res.status(500).json();
-  //   }
-  //   // console.log(user, 77777)
-
+ 
   Favorites.find({ userId: id }, (error, recipeData) => {
     if (error) {
       return res.status(500).json();
     }
-
-    // return res.status(200).json({recipes: recipes})
+   
     const recipesIds = recipeData.map((d) => {
       return d.recipeId;
     });
@@ -47,6 +53,13 @@ exports.findFavorites = (req, res) => {
   });
 };
 
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * create recipe and save it to the database.
+ */
+
 exports.create = (req, res) => {
   const id = authServices.getUserId(req);
   const f = req.file;
@@ -63,9 +76,7 @@ exports.create = (req, res) => {
 
     const imageUrl = req.file.path.replace("\\", "/");
     console.log(req.body.ingredients, 999);
-    // const instructions = req.body.instructions.trim().split("\n");
-    // const ingredients = req.body.ingredients.trim().split("\n");
-
+  
     const recipe = new Recipe({
       name: req.body.recipeName,
       type: req.body.recipeType,
@@ -92,7 +103,12 @@ exports.create = (req, res) => {
   return res.status(200).json();
 };
 
-//add favorite
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * add favorite to the database.
+ */
 exports.addFavorite = (req, res) => {
   // console.log(req.body.recipeId, 9999);
   const id = authServices.getUserId(req);
@@ -117,7 +133,14 @@ exports.addFavorite = (req, res) => {
   });
   return res.status(200).json();
 };
-//end add favorite
+
+
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * update recipes.
+ */
 exports.update = (req, res) => {
   const id = authServices.getUserId(req);
 
@@ -168,6 +191,13 @@ exports.update = (req, res) => {
   });
 };
 
+
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * remove recipe from the database.
+ */
 exports.remove = (req, res) => {
   const id = authServices.getUserId(req);
 
@@ -196,6 +226,13 @@ exports.remove = (req, res) => {
   });
 };
 
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * remove favorite from the database.
+ */
+
 exports.removeFavorite = (req, res) => {
   console.log(req.body, 1111);
   const id = authServices.getUserId(req);
@@ -216,6 +253,13 @@ exports.removeFavorite = (req, res) => {
   });
 };
 
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * show a single recipe from the database.
+ */
+
 exports.show = (req, res) => {
   console.log(req.params.id, 6666);
   Recipe.findOne({ _id: req.params.id }, (error, recipe) => {
@@ -226,8 +270,13 @@ exports.show = (req, res) => {
       return res.status(404).json();
     }
     return res.status(200).json(recipe);
-  });
+  }).populate("author", "username", "user");
 };
+
+/**
+ * 
+ * @param {the path of the file to be clear from directory} filePath 
+ */
 
 const clearImage = (filePath) => {
   console.log(filePath, 777777);

@@ -5,7 +5,12 @@ const Grocery = require('../../model/grocery-list-model')
 
 
 
-
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * @returns all the data from the grocery database.
+ */
 exports.fetchAllGroceries = async (req, res) => {
     const userId = authServices.getUserId(req)
     const user = await User.findById({_id: userId})
@@ -23,21 +28,12 @@ exports.fetchAllGroceries = async (req, res) => {
 
 }
 
-// exports.getGrocery = async (req, res) => {
-//     const itemId = req.params.id
-//     if(itemId){
-//         const grocery = await Grocery.find({recipe: recipeId})
-//         return res.status(200).json({
-//             success: true,
-//             count: grocery.length,
-//             data: grocery
-//         })
-//     }else{
-//         console.log('No reipe Id')
-//     }
-    
-// }
-
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * add the grocery item to the grocery database.
+ */
 exports.addGrocery = async  (req, res) => {
     const userId =   authServices.getUserId(req)
     const groceryBody = {
@@ -60,6 +56,13 @@ exports.addGrocery = async  (req, res) => {
    
 }
 
+
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * delete items item to from the grocery database.
+ */
 exports.deleteGrocery = (req, res) => {
     const {id} = req.params
     console.log(id, 8888);
@@ -71,12 +74,6 @@ exports.deleteGrocery = (req, res) => {
         if (!grocery) {
           return res.status(500).json();
         }
-        // if (recipe.author._id.toString() !== id) {
-        //   return res
-        //     .status(403)
-        //     .json({ message: "Not allow to delete others Recipe" });
-        // }
-        
        
         Grocery.deleteOne({ _id: id }, (error) => {
           if (error) {
@@ -88,7 +85,12 @@ exports.deleteGrocery = (req, res) => {
 
 }
 
-
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * update item on grocery database.
+ */
 exports.update = (req, res) => {
     const groceryId = req.body.recipeId;
   

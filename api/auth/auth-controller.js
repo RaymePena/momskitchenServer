@@ -1,6 +1,14 @@
 const User = require("../../model/user-model");
 const StringUtil = require("../../utilities/string-util");
 const authServices = require("../../services/auth-service");
+
+
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * return the user if exist or if the password matches
+ */
 exports.index = (req, res) => {
   const validation = validateIndex(req.body);
   if (!validation.isValid) {
@@ -27,6 +35,12 @@ exports.index = (req, res) => {
     return res.status(200).json({ token: token });
   });
 };
+
+/**
+ * 
+ * @param {the request body} body 
+ * validate the body of the request
+ */
 
 function validateIndex(body) {
   let errors = "";

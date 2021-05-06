@@ -19,6 +19,12 @@ const fileStorage = multer.diskStorage({
 	}
 })
 
+/**
+ * 
+ * @param {* reqest send from the client} req 
+ * @param {* file send from the client} file 
+ * @param {*callback} cb 
+ */
 const fileFilter = (req, file, cb)  => {
 	if(file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg'){
 		cb(null, true)

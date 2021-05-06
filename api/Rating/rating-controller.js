@@ -5,6 +5,12 @@ const authServices = require('../../services/auth-service')
 const mongoose= require('mongoose')
 
 
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * fetch all rating from the database.
+ */
 
 exports.fetchRatings = async (req, res) => {
     const review = await Review.findById(req.params.id).populate({
@@ -23,10 +29,17 @@ exports.fetchRatings = async (req, res) => {
     
 }
 
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * fetch reviews from the database.
+ */
+
 exports.getReview = async (req, res) => {
     const recipeId = req.params.id
     if(recipeId){
-        const reviews = await Review.find({recipe: recipeId}).limit(6);
+        const reviews = await Review.find({recipe: recipeId});
         return res.status(200).json({
             success: true,
             count: reviews.length,
@@ -37,7 +50,12 @@ exports.getReview = async (req, res) => {
     }
     
 }
-
+/**
+ * 
+ * @param {the request comming from the client} req 
+ * @param {send the data to the client} res 
+ * add review to the database.
+ */
 exports.addReview = async  (req, res) => {
     const userId =   authServices.getUserId(req)
     console.log(req.body.recipe, 8888)
@@ -60,29 +78,5 @@ exports.addReview = async  (req, res) => {
         data: review
     })
 
-    // User.findOne({_id: userId}, (error, user) => {
-    //     if(error){
-    //         return res.status(500).json()
-    //     }
-
-    //     const rating = new Rating({
-    //         title: req.body.title,
-    //         rating: req.body.rating,
-    //         comment: req.body.comment,
-    //         recipeId: req.body.recipeId,
-    //         author: user._id
-    //     });
-
-    //     console.log(rating)
-
-    //     rating.save(error => {
-    //         if(error){
-    //             return res.status(500).json()
-    //         }
-    //         return res.status(200).json()
-    //     })
-        
-    // })
-    // return res.status(200).json()
     
 }
